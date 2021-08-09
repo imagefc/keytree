@@ -106,3 +106,9 @@ KeyList (ordered but have no key index)
   }
 ]
 ```
+
+## Unsupported keys
+Note that consul keys are not strictly cascaded. If you use this library you should exclude some special keys such as
+- empty string ""
+- slash "/"
+- key with 2 or more continous slash "a//b"
