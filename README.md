@@ -112,3 +112,15 @@ Note that consul keys are not strictly cascaded. If you use this library you sho
 - empty string ""
 - slash "/"
 - key with 2 or more continous slash "a//b"
+
+
+## License
+This repository, also known as the following names (hereinafter referred to as "this repo"), is licensed under the GNU General Public License v3.0 (GPL v3.0).
+- https://github.com/imagefc/keytree
+- github.com/imagefc/keytree
+- imagefc/keytree
+
+Any operation of this repo (viewing, forking, cloning, modifying, redistributing, etc.) shall be deemed as your agreement to the following provisions:
+
+1. Any file in this repo is licensed under GPL v3.0, even if it does not contain copyright information.
+2. The author has the final right to interpret this repo.
