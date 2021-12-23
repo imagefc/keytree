@@ -1,7 +1,16 @@
 # keytree
 Transfer consul key slice to cascade key tree.
 
-- Before transfer (call consul key-value api to get keys)
+## Usage
+1. Get keys from `localhost:8500/v1/kv/?keys` (string slice)
+
+```go
+resp, _ := http.Get("localhost:8500/v1/kv/?keys")
+defer resp.Body.Close()
+var keys []string
+json.NewDecoder(resp.Body).Decode(&keys)
+```
+
 ```
 a
 a/           // item and dir with same name
@@ -15,15 +24,22 @@ b/dir3/
 b/dir3/item4
 ```
 
-- After transfer
-
-KeyMap (unordered but have unique key index)
+2. Transfer `[]string` to `KeyMap` (unordered but have unique key index)
+```go
+keyMap := keytree.BuildMap(keys)
 ```
+
+Each key with a slash suffix (like `a/`) represents a "dir".
+
+Keys without parent dir (like `a/dir2/item3`) will be fixed by adding missing "parent dirs".
+
+The JSON form of `keyMap` is shown below (may be different because map is unordered).
+```json
 {
   "a": null,
-  "a/": {               // use slash to separate item and dir
+  "a/": {
     "dir1/": {},
-    "dir2/": {          // add missing parent(s)
+    "dir2/": {
       "item3": null
     },
     "item1": null,
@@ -38,8 +54,12 @@ KeyMap (unordered but have unique key index)
 }
 ```
 
-KeyList (ordered but have no key index)
+3. Transfer `KeyMap` to `KeyList` (ordered but have no key index)
+```go
+keyList := keytree.BuildKeyListFromMap(keyMap)
 ```
+The JSON form of `keyList` is shown below. It's ordered.
+```json
 [
   {
     "name": "a",
@@ -111,7 +131,7 @@ KeyList (ordered but have no key index)
 Note that consul keys are not strictly cascaded. If you use this library you should exclude some special keys such as
 - empty string ""
 - slash "/"
-- key with 2 or more continous slash "a//b"
+- key with 2 or more continous slash (like "a//b")
 
 
 ## License
