@@ -1,6 +1,8 @@
 # keytree
 Transfer consul key slice to cascade key tree.
 
+(Archived and moved to [Gitee](https://gitee.com/FlyingOnion/keytree))
+
 ## Usage
 1. Get keys from `localhost:8500/v1/kv/?keys` (string slice)
 
